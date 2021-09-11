@@ -3,7 +3,7 @@
 
 using namespace std;
 
-int getArg(int argc, char* argv[]) {
+int argHandler(int argc, char* argv[]) {
 	if (argc > 1) {
 		if (strcmp(argv[1], "-h") == 0) {
 			cout << "Help\n";
@@ -24,10 +24,23 @@ int getArg(int argc, char* argv[]) {
 
 int main(int argc, char* argv[]) {
 
+	string fileName;	
+
 	cout << "Hello\n";
 
-	getArg(argc, argv);
-
+	switch(argHandler(argc, argv)) {
+		case -1:
+			return 0;
+		case 0:
+			fileName = "testFile.txt";
+			break;
+		case 1:
+			fileName = argv[1];
+			break;
+		case 2:
+			break;
+	}
+	cout << "No help\n";
 	return 0;
 
 }

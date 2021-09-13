@@ -15,7 +15,7 @@ class Logger {
 		}
 		int addmsg(std::list<data_t> &, std::string);
 		int addmsgDelayed(std::list<data_t> &, std::string, int sec);
-		void clearlog();
+		void clearlog(std::list<data_t> &);
 		std::string getlog(std::string);
 		int savelog(std::list<data_t>, std::string);
 };

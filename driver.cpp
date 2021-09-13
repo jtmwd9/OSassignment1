@@ -34,17 +34,20 @@ int main(int argc, char* argv[]) {
 			logger.addmsg(logMessages, "test.txt");
 			logger.savelog(logMessages, "savelog.txt");
 			cout << logger.getlog("savelog.txt");
+			logger.clearlog(logMessages);
 			break;
 		case 1:
 			writeName = argv[1];
 			logger.addmsg(logMessages, "test.txt");
 			logger.savelog(logMessages, writeName);
 			cout << logger.getlog(writeName);
+			logger.clearlog(logMessages);
 			break;
 		case 2:
 			logger.addmsgDelayed(logMessages, "test.txt", atoi(argv[2]));
 			logger.savelog(logMessages, "savelog.txt");
 			cout << logger.getlog("savelog.txt");
+			logger.clearlog(logMessages);
 			break;
 	}
 

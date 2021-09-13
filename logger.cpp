@@ -68,8 +68,8 @@ int Logger::addmsgDelayed (list <data_t> &logMessages, string fileName, int sec)
 	return 0;
 }
 
-void Logger::clearlog(){
-
+void Logger::clearlog(list <data_t> &logMessages){
+	logMessages.clear();
 }
 
 string Logger::getlog(string fileName) {

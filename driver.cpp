@@ -1,5 +1,8 @@
 #include <iostream>
 #include <string.h>
+#include <list>
+#include <stdlib.h>
+#include "logger.h"
 
 using namespace std;
 
@@ -9,38 +12,41 @@ int argHandler(int argc, char* argv[]) {
 			cout << "Help\n";
 			return -1;
 		}else if (strcmp(argv[1], "-t") == 0) {
-			cout << "Time\n";
 			return 2;
 		}else {
-			cout << "File\n";
 			return 1;
 		}
 	} else {
-		cout << "None\n";
 		return 0;
 	}
 
 }
 
 int main(int argc, char* argv[]) {
-
-	string fileName;	
-
-	cout << "Hello\n";
+	Logger logger;
+	string writeName;
+	list<data_t> logMessages;	
 
 	switch(argHandler(argc, argv)) {
 		case -1:
 			return 0;
 		case 0:
-			fileName = "testFile.txt";
+			logger.addmsg(logMessages, "test.txt");
+			logger.savelog(logMessages, "savelog.txt");
+			cout << logger.getlog("savelog.txt");
 			break;
 		case 1:
-			fileName = argv[1];
+			writeName = argv[1];
+			logger.addmsg(logMessages, "test.txt");
+			logger.savelog(logMessages, writeName);
+			cout << logger.getlog(writeName);
 			break;
 		case 2:
+			logger.addmsgDelayed(logMessages, "test.txt", atoi(argv[2]));
+			logger.savelog(logMessages, "savelog.txt");
+			cout << logger.getlog("savelog.txt");
 			break;
 	}
-	cout << "No help\n";
-	return 0;
 
+	return 0;
 }

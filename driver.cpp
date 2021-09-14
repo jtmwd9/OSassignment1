@@ -20,7 +20,10 @@ using namespace std;
 int argHandler(int argc, char* argv[]) {		//codes the types of arguments for use later
 	if (argc > 1) {
 		if (strcmp(argv[1], "-h") == 0) {	//help
-			cout << "Help\n";
+			cout << "$./driver	to run default\n";
+			cout << "$./driver \"filename\" 	to write log to specified file\n";
+			cout << "$./driver -t \"sec\"(int)	 to delay messages by sec seconds average\n";
+			cout << "See ReadMe.txt for more information\n";	
 			return -1;
 		}else if (strcmp(argv[1], "-t") == 0) {	//custom time delay
 			return 2;

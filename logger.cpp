@@ -8,7 +8,7 @@
 
 using namespace std;
 
-int Logger::addmsg (list <data_t> &logMessages, string fileName) {
+int Logger::addmsg (list <data_t> &logMessages, string fileName, string execName){	//adds messages from text file to list of data_t structs
 	string line;
 	char thisType;
 	data_t thisMessage;
@@ -19,8 +19,8 @@ int Logger::addmsg (list <data_t> &logMessages, string fileName) {
 	
 	if (myFile.is_open()) {
 		while(getline (myFile, line)){
-			thisType = line.substr(0, line.find(" "))[0];
-			line = line.substr(line.find(" ") + 1);
+			thisType = line.substr(0, line.find(" "))[0];			//takes first letter for error type
+			line = line.substr(line.find(" ") + 1);				//remaining line
 			thisMessage.type = thisType;
 			thisMessage.message = line;
 			time(&t);
@@ -28,14 +28,17 @@ int Logger::addmsg (list <data_t> &logMessages, string fileName) {
 			logMessages.push_back(thisMessage);
 		}
 		myFile.close();
-	} else {
+	} else {									//send error to perror
+		execName.append(": could not open file to read\n");
+		const char *c = execName.c_str();
+		perror (c);
 		return -1;
 	}
 
 	return 0;
 }
 
-int Logger::addmsgDelayed (list <data_t> &logMessages, string fileName, int sec) {
+int Logger::addmsgDelayed (list <data_t> &logMessages, string fileName, int sec, string execName) {	//same as above, but with custom time delay
 	string line;
 	char thisType;
 	data_t thisMessage;
@@ -62,17 +65,20 @@ int Logger::addmsgDelayed (list <data_t> &logMessages, string fileName, int sec)
 		}
 		myFile.close();
 	} else {
+		execName.append(": could not open file to read\n");
+		const char *c = execName.c_str();
+		perror(c);
 		return -1;
 	}
 
 	return 0;
 }
 
-void Logger::clearlog(list <data_t> &logMessages){
+void Logger::clearlog(list <data_t> &logMessages){			//clears list
 	logMessages.clear();
 }
 
-string Logger::getlog(string fileName) {
+string Logger::getlog(string fileName, string execName) {		//takes output file and makes a string from text
 	string log;
 	string line;
 
@@ -86,15 +92,18 @@ string Logger::getlog(string fileName) {
 		}
 		myFile.close();
 	} else {
+		execName.append(": could not open file to read\n");
+		const char *c = execName.c_str();
+		perror(c);
 		return "failed";
 	}
 
 	return log;
 }
 
-int Logger::savelog(list<data_t> logMessages, string fileName) {
+int Logger::savelog(list<data_t> logMessages, string fileName, string execName) {	//writes data from data_t list to output file
 	list<data_t>::iterator it;
-	time_t t;
+	time_t t;									//time used to conver data_t.time to readable format
 	struct tm *localTime;
 	ofstream myFile;
 	myFile.open(fileName.c_str());
@@ -113,6 +122,9 @@ int Logger::savelog(list<data_t> logMessages, string fileName) {
 		}
 		myFile.close();
 	} else {
+		execName.append(": could not open file to write\n");
+		const char *c = execName.c_str();
+		perror(c);
 		return -1;	
 	}
 
